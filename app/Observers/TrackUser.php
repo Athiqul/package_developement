@@ -12,18 +12,7 @@ class TrackUser
     {
 
 
-        if($model->isPasswordChanged()){
-
-           if( $model->isPasswordChangedNotificationQueued());
-            {
-                Mail::to($model->getRawOriginal($model->getEmailColumn()))->queue($model->pushNotificationMail());
-                return true;
-            }
-            Mail::to($model->getRawOriginal($model->getEmailColumn()))->send($model->pushNotificationMail());
-            return true;
-        }else{
-            return false;
-        }
+      $model->sendEmailPasswordChangeNotification();
 
 
     }

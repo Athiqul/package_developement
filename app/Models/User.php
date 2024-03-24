@@ -44,8 +44,6 @@ class User extends Authenticatable implements UserContract
 
 
 
-
-
 }
 
 
