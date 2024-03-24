@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Mail\PasswordChangedNotification;
+use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -40,7 +43,27 @@ class User extends Authenticatable
     ];
 
 
+     //For Customize Attributes
+     public function getPasswordColumn(): string
+     {
+        return 'password';
+     }
 
+     public function getEmailColumn(): string
+     {
+        return 'email';
+     }
+
+     public function pushNotificationMail():Mailable
+     {
+        return new PasswordChangedNotification();
+     }
+
+
+     public function isPasswordChanged()
+     {
+        return $this->wasChanged($this->getPasswordColumn());
+     }
 
 
 }

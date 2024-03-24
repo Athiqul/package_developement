@@ -17,11 +17,10 @@ class PasswordChangedNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    private $username,$time;
-    public function __construct($username,$time)
+
+    public function __construct()
     {
-         $this->username = $username;
-         $this->time = $time;
+
     }
 
     /**
@@ -30,7 +29,7 @@ class PasswordChangedNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: ucwords($this->username).' your Password successfully Changed!',
+            subject: 'Dear User your Password successfully Changed!',
         );
     }
 
@@ -41,10 +40,7 @@ class PasswordChangedNotification extends Mailable
     {
         return new Content(
             view: 'mail.password_change_notification',
-            with:[
-                "username"=>$this->username,
-                "time"=>$this->time->diffForHumans(),
-            ],
+
         );
     }
 

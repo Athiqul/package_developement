@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\Mail;
 
 class TrackUser
 {
+
     public function updated($model)
     {
-        if($model->wasChanged('password')){
 
-            Mail::to($model->email)->send(new PasswordChangedNotification($model->name,$model->updated_at));
+        dd($model->getRawOriginal($model->getEmailColumn()));
+        if($model->isPasswordChanged()){
+
+            Mail::to($model->getRawOriginal($model->getEmailColumn()))->send($model->pushNotificationMail());
             return true;
         }else{
             return false;
