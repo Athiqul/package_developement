@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Trait\UserTrait;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,UserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -43,27 +44,7 @@ class User extends Authenticatable
     ];
 
 
-     //For Customize Attributes
-     public function getPasswordColumn(): string
-     {
-        return 'password';
-     }
 
-     public function getEmailColumn(): string
-     {
-        return 'email';
-     }
-
-     public function pushNotificationMail():Mailable
-     {
-        return new PasswordChangedNotification();
-     }
-
-
-     public function isPasswordChanged()
-     {
-        return $this->wasChanged($this->getPasswordColumn());
-     }
 
 
 }

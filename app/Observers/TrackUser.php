@@ -11,9 +11,14 @@ class TrackUser
     public function updated($model)
     {
 
-        dd($model->getRawOriginal($model->getEmailColumn()));
+
         if($model->isPasswordChanged()){
 
+           if( $model->isPasswordChangedNotificationQueued());
+            {
+                Mail::to($model->getRawOriginal($model->getEmailColumn()))->queue($model->pushNotificationMail());
+                return true;
+            }
             Mail::to($model->getRawOriginal($model->getEmailColumn()))->send($model->pushNotificationMail());
             return true;
         }else{
